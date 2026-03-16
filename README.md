@@ -3,7 +3,7 @@
 ## 🚨 The Situation
 
 You asked an AI to build a simple "Number Guessing Game" using Streamlit.
-It wrote the code, ran away, and now the game is unplayable. 
+It wrote the code, ran away, and now the game is unplayable.
 
 - You can't win.
 - The hints lie to you.
@@ -25,9 +25,21 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] **Game purpose:** A Streamlit-based number guessing game where you pick a difficulty, guess a secret number within a limited number of attempts, and receive hints ("Too High" / "Too Low") to guide you. Your score is tracked across guesses.
+- [x] **Bugs found:**
+  1. Hint messages were reversed — guessing too high said "Go HIGHER!" instead of "Go LOWER!"
+  2. Hard mode range (1–50) was actually easier than Normal mode (1–100)
+  3. On even-numbered attempts, the secret was converted to a string, breaking comparisons
+  4. Score changed erratically — "Too High" gave +5 on even attempts but -5 on odd
+  5. Attempts counter started at 1 instead of 0, costing one attempt from the start
+- [x] **Fixes applied:**
+  1. Swapped the hint messages in `check_guess()` so "Too High" says "Go LOWER!" and vice versa
+  2. Changed Hard mode range to 1–200
+  3. Removed the string conversion — secret is always compared as an integer
+  4. Made wrong-guess penalties a consistent -5 regardless of attempt number
+  5. Changed initial attempts to 0 and fixed the "Attempts left" display
+  6. Refactored all game logic from `app.py` into `logic_utils.py`
+  7. Fixed the info bar to show the actual difficulty range instead of hardcoded "1 and 100"
 
 ## 📸 Demo
 

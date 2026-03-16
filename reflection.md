@@ -35,13 +35,12 @@ Copilot helped me think about what to test by suggesting edge-case scenarios. Wh
 
 ## 4. What did you learn about Streamlit and state?
 
-- How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+Streamlit works differently from a normal Python script — every time you interact with the app (click a button, type in an input), the entire script re-runs from top to bottom. This means that if you store a variable the normal way (like `secret = 42`), it gets reset to its initial value on every interaction. To fix this, Streamlit provides `st.session_state`, which acts like a persistent dictionary that survives between reruns. So `st.session_state.secret` keeps its value even when the page re-runs after you click "Submit Guess." This was critical for this project because the secret number, score, and attempt count all need to persist across interactions — without session state, every guess would reset the game.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
-- What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
-- What is one thing you would do differently next time you work with AI on a coding task?
-- In one or two sentences, describe how this project changed the way you think about AI generated code.
+- **One habit I want to reuse:** Writing targeted pytest cases immediately after fixing a bug. It forced me to think clearly about what "fixed" actually means — not just "it doesn't crash," but "given this specific input, I get this specific output." This test-then-verify loop caught issues that manual testing alone might have missed.
+- **What I'd do differently:** Next time I would start by reading the code carefully before asking the AI for help. In this project, I initially asked Copilot to explain bugs before I fully understood the code flow myself, which meant I couldn't always tell if its explanations were accurate. Understanding the code first makes me a better judge of AI suggestions.
+- This project showed me that AI-generated code can look perfectly reasonable on the surface while hiding subtle logic bugs (like swapped hint messages or type coercion on alternating attempts). It reinforced that AI is a tool to accelerate my work, not a replacement for carefully reading and testing the code myself.
