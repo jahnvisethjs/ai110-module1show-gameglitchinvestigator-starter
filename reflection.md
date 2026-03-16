@@ -16,18 +16,20 @@ When I first ran the game, it looked like a normal Streamlit guessing game with 
 
 ## 2. How did you use AI as a teammate?
 
-- Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
-- Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
-- Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+I used VS Code Copilot (Chat and Agent modes) to help investigate and fix the game. I shared the full codebase context using `#file:app.py` and `#file:logic_utils.py` so the AI could see how the UI and logic files related to each other.
+
+- **Correct suggestion:** When I described the reversed hints bug, Copilot correctly identified that the messages in `check_guess()` were swapped — `guess > secret` was returning "Go HIGHER!" instead of "Go LOWER!". I verified this by checking the debug panel (secret was 29), guessing 50, and confirming that after the fix the hint correctly said "Go LOWER!".
+- **Incorrect/misleading suggestion:** When I asked Copilot to fix the scoring, it initially suggested removing the penalty entirely for wrong guesses, arguing that "negative scores are unfriendly." However, that would have removed the incentive to guess efficiently. I rejected this and instead made the deduction a consistent -5 for every wrong guess regardless of attempt number, which keeps the scoring fair and predictable.
 
 ---
 
 ## 3. Debugging and testing your fixes
 
-- How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
-- Did AI help you design or understand any tests? How?
+I used a combination of manual testing and automated pytest to confirm each fix. For manual testing, I would run `streamlit run app.py`, open the Developer Debug Info panel to see the secret number, and then make guesses that I knew should be higher or lower to verify the hints were correct.
+
+For automated testing, I wrote pytest cases in `tests/test_game_logic.py`. For example, `test_hint_message_when_too_high` calls `check_guess(60, 50)` and asserts that the message contains "LOWER" — this directly targets the reversed-hints bug. I also wrote `test_score_deduction_is_consistent` which checks that `update_score(100, "Too High", 2)` and `update_score(100, "Too High", 3)` both return 95, confirming the scoring no longer depends on attempt parity. All 9 tests pass cleanly.
+
+Copilot helped me think about what to test by suggesting edge-case scenarios. When I asked it to generate tests, it proposed checking both the outcome string and the hint message text separately, which was a good pattern — it let me verify both the game logic and the user-facing feedback in the same test file.
 
 ---
 
